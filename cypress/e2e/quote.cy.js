@@ -1,22 +1,34 @@
-// quote_spec.cy.js
 import { quoteElements } from '../support/elements/quoteElements';
+import testData from '../fixtures/testData';
 
-describe('Cotação de Receitas', () => {
+describe('Processo de Cotação de Receitas', () => {
   before(() => {
+    cy.log('Dado que o usuário acessa a página de cotação de receitas');
     cy.visit('/');
   });
 
-  it('deve preencher o formulário e enviar uma receita', () => {
-    // Carrega os dados de ambiente
-    const cep = Cypress.env('cep');
-    const email = Cypress.env('email');
-    const nome = Cypress.env('nome');
-    const celular = Cypress.env('celular');
+  it('Quando o usuário preenche o formulário de cotação com dados válidos', () => {
+    cy.log('E o usuário preenche o campo de CEP');
+    cy.get(quoteElements.cepInput).type(testData.cep);
 
-    cy.get(quoteElements.cepInput).type(cep);
-    cy.get(quoteElements.emailInput).type(email);
-    cy.get(quoteElements.nameInput).type(nome);
-    cy.get(quoteElements.phoneInput).type(celular);
+    cy.log('E o usuário preenche o campo de Email');
+    cy.get(quoteElements.emailInput).type(testData.email);
 
+    cy.log('E o usuário preenche o campo de Nome');
+    cy.get(quoteElements.nameInput).type(testData.nome);
+
+    cy.log('E o usuário preenche o campo de Celular');
+    cy.get(quoteElements.phoneInput).type(testData.celular);
+  });
+
+  it('E o usuário envia o formulário de cotação', () => {
+    cy.log('Então o usuário clica no botão de enviar receita');
+    cy.get(quoteElements.submitButton).click();
+  });
+
+  it('Então a cotação de receita é enviada com sucesso', () => {
+    cy.log('E o usuário vê uma mensagem de confirmação de envio');
+    // Aqui você adicionaria a verificação da mensagem de sucesso
+    // Por exemplo: cy.get(seletorDaMensagemDeSucesso).should('contain', 'Receita enviada com sucesso');
   });
 });
